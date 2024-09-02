@@ -27,7 +27,7 @@ rules:
 - apiGroups: ["autoscaling"]
   resources: ["horizontalpodautoscalers"]
   verbs: ["get","watch","list"]
-- apiGroups: ["networking"]
+- apiGroups: ["networking.k8s.io"]
   resources: ["networkpolicies"]
   verbs: ["get","watch","list"]
 - apiGroups: ["aquasecurity.github.io"]

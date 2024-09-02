@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubewise-{{ .Release.Name }}-agent-config
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+data:
+  KUBERNETES_NAMESPACES: {{ join "," .Values.config.namespaces | quote }}
+  KUBERNETES_EXCLUDE_NAMESPACES: {{ join "," .Values.config.excludeNamespaces | quote }}
+  KUBERNETES_WATCH_NAMESPACES: {{ .Values.config.watchNamespaces | quote }}
+  KUBERNETES_RESYNC_FREQUENCY: {{ .Values.config.kubernetesResyncFrequency | quote }}
+  WATCH_BY_DEFAULT: {{ .Values.config.watchByDefault | quote }}
+  COLLECT_LOGS_ON_CRASH: {{ .Values.config.collectLogsOnWatchedPodsCrashes | quote }}

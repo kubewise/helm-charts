@@ -1,0 +1,97 @@
+#
+# This section configures your credentials to connect to Kubewise.
+# All the fields are *required*.
+#
+credentials:
+  # clusterId is the Kubewise's cluster id to which  you want to send collected data to (required)
+  clusterId: ""
+  # apiKey is the associated Kubewise's cluster's API key (required)
+  apiKey: ""
+
+#
+# This section configures the K8s agent.
+#
+config:
+  # watchNamespaces tells the K8s agent if it needs to be automatically watching newly created namespaces.
+  # Namespaces listed in the 'excludeNamespaces' parameter will not be watched.
+  watchNamespaces: true
+  # namespaces defines a static list of namespaces that needs to be watched in the cluster. If 'watchNamespaces'
+  # is also set to 'true' then this option will be ignored.
+  # If you want to watch all namespaces then you can set it to a single entry containing the '*' value.
+  # The difference between the '*' value and the 'watchNamespaces' option set to true, is that unlike the 'watchNamespaces'
+  # option, new namespaces are not going to be watched automatically.
+  namespaces: []
+  # excludeNamespaces defines a static list of namespaces that will NOT be watched.
+  # Note that those namespaces does NOT need to exists.
+  excludeNamespaces:
+  - kube-system
+  - kube-public
+  - kube-node-lease
+  - kubewise
+  # kubernetesResyncFrequency is the frequency at the agent should resync its data with the Kubernetes API server.
+  # In most cases the default value or a higher one is perfectly fine. Setting it too low may introduce some load
+  # on your Kubernetes API servers, which is not recommended.
+  # The value should be set as a Golang duration format: https://pkg.go.dev/time#ParseDuration
+  # Valid units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
+  kubernetesResyncFrequency: "6h"
+  # watchByDefault tells the K8s agent if it should watched resources by default.
+  # This option is the global On/Off switch. You can fine tune the behavior per resources using Kubernetes
+  # annotations. Please refer to the documentations for more information: https://doc.kubewise.io/k8s-agent/annotations/
+  watchByDefault: true
+  # collectLogsOnWatchedPodsCrashes tells the K8s agent if it should collect logs when a watched pod crashes.
+  # This option is the global On/Off switch. You can fine tune the behavior per resources using Kubernetes
+  # annotations. Please refer to the documentations for more information: https://doc.kubewise.io/k8s-agent/annotations/
+  collectLogsOnWatchedPodsCrashes: true
+
+#
+# This section configures the deployment aspect of the K8s agent.
+#
+deployment:
+  # image defined where to pull the k8s agent image from.
+  image:
+    repository: ghcr.io/kubewise/k8s-agent
+    pullPolicy: IfNotPresent
+    tag: ""
+  # imagePullSecrets configures a list of secrets used to authenticate against the registry to pull the K8s agent image from.
+  imagePullSecrets: []
+  # - name: registry_credentials # those will need to be manually created before deploying
+
+  # resources here is defined deployment resources for Kubewise's K8s agent's deployment. In most clusters, defaults values
+  # should be sufficient. However, you want/need to increase them if your environment produces a lot of Kubernetes events.
+  resources: {}
+    # limits:
+    #   cpu: 600m
+    #   memory: 512Mi
+    # requests:
+    #   cpu: 400m
+    #   memory: 256Mi
+
+  # podSecurityContext for the Kubewise's K8s agent's deployment. Note that changing the user and group may result in a broken
+  # deployment. Other podSecurityContext options have not been tested, so adding or modifying them may also result in a broken
+  # deployment.
+  podSecurityContext:
+    runAsUser: 12345
+    runAsGroup: 12345
+
+  # securityContext configures the security context for the container running the Kubewise's K8s agent's deployment. By default,
+  # the agent does not require any privilege nor a read/write filesystem. Other option have not been tested, so modifying them
+  # may result in a broken deployment.
+  securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+      - ALL
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+# deployTrivyOperator specifies if the Trivy operator should be deployed as well, along side the K8s agent.
+# Trivy operator is a *hard requirement* of the K8s agent, so setting it to 'false' means that you have already
+# deployed it in your cluster. It does NOT need to be deployed on the same namespace as the Kubewise K8s agent.
+# Note that K8s agent expects to be working with the version 0.22.0 of the Trivy operator (Helm chart version 0.24.1).
+deployTrivyOperator: true

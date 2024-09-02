@@ -1,6 +1,6 @@
 #
 # This section configures your credentials to connect to Kubewise.
-# All the fields in it are *required*.
+# All the fields are *required*.
 #
 credentials:
   # clusterId is the Kubewise's cluster id to which  you want to send collected data to (required)
@@ -56,6 +56,8 @@ deployment:
   imagePullSecrets: []
   # - name: registry_credentials # those will need to be manually created before deploying
 
+  # resources here is defined deployment resources for Kubewise's K8s agent's deployment. In most clusters, defaults values
+  # should be sufficient. However, you want/need to increase them if your environment produces a lot of Kubernetes events.
   resources: {}
     # limits:
     #   cpu: 600m
@@ -64,16 +66,23 @@ deployment:
     #   cpu: 400m
     #   memory: 256Mi
 
-  podSecurityContext: {}
-    # fsGroup: 2000
+  # podSecurityContext for the Kubewise's K8s agent's deployment. Note that changing the user and group may result in a broken
+  # deployment. Other podSecurityContext options have not been tested, so adding or modifying them may also result in a broken
+  # deployment.
+  podSecurityContext:
+    runAsUser: 12345
+    runAsGroup: 12345
 
+  # securityContext configures the security context for the container running the Kubewise's K8s agent's deployment. By default,
+  # the agent does not require any privilege nor a read/write filesystem. Other option have not been tested, so modifying them
+  # may result in a broken deployment.
   securityContext:
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
     capabilities:
       drop:
       - ALL
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 1000
 
   nodeSelector: {}
 

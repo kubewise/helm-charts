@@ -65,7 +65,7 @@ subjects:
 - kind: ServiceAccount
   name: kubewise-{{ .Release.Name }}-k8s-agent
   namespace: {{ .Release.Namespace }}
-  apiGroup: rbac.authorization.k8s.io
+  apiGroup: ""
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

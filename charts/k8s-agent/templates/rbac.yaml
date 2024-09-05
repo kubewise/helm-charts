@@ -13,10 +13,7 @@ metadata:
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
 rules:
 - apiGroups: [""]
-  resources: ["nodes","namespaces","services"]
-  verbs: ["get","watch","list"]
-- apiGroups: [""]
-  resources: ["pods","pods/log"]
+  resources: ["nodes","namespaces","services","pods","pods/log", "events"]
   verbs: ["get","watch","list"]
 - apiGroups: ["apps"]
   resources: ["daemonsets","deployments","replicasets","statefulsets"]
@@ -28,7 +25,7 @@ rules:
   resources: ["horizontalpodautoscalers"]
   verbs: ["get","watch","list"]
 - apiGroups: ["networking.k8s.io"]
-  resources: ["networkpolicies"]
+  resources: ["ingresses","networkpolicies"]
   verbs: ["get","watch","list"]
 - apiGroups: ["aquasecurity.github.io"]
   resources: ["clustercompliancereports","clusterconfigauditreports","clusterinfraassessmentreports","clusterrbacassessmentreports","clustersbomreports","clustervulnerabilityreports","configauditreports","exposedsecretreports","infraassessmentreports","rbacassessmentreports","sbomreports","vulnerabilityreports"]

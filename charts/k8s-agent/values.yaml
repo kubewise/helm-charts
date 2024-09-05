@@ -20,7 +20,7 @@ config:
   # If you want to watch all namespaces then you can set it to a single entry containing the '*' value.
   # The difference between the '*' value and the 'watchNamespaces' option set to true, is that unlike the 'watchNamespaces'
   # option, new namespaces are not going to be watched automatically.
-  namespaces: []
+  namespaces: ["*"]
   # excludeNamespaces defines a static list of namespaces that will NOT be watched.
   # Note that those namespaces does NOT need to exists.
   excludeNamespaces:

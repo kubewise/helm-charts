@@ -12,7 +12,7 @@ metadata:
     kubewise.io/group: k8s
     kubewise.io/app: k8s-agent
 spec:
-  serviceName: rabbitmq-sts
+  serviceName: kubewise-{{ .Release.Name }}-k8s-agent-sts
   replicas: 1
   updateStrategy:
     type: "RollingUpdate"
@@ -26,6 +26,7 @@ spec:
         kubewise.io/group: k8s
         kubewise.io/app: k8s-agent
     spec:
+      serviceAccountName: kubewise-{{ .Release.Name }}-k8s-agent
       terminationGracePeriodSeconds: 10
       {{- with .Values.deployment.nodeSelector }}
       nodeSelector:

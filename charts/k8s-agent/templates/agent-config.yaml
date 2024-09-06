@@ -3,11 +3,8 @@ kind: ConfigMap
 metadata:
   name: kubewise-{{ .Release.Name }}-agent-config
   labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
-    app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
-    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubewise.io/group: k8s
+    kubewise.io/app: k8s-agent
 data:
   KUBERNETES_NAMESPACES: {{ join "," .Values.config.namespaces | quote }}
   KUBERNETES_EXCLUDE_NAMESPACES: {{ join "," .Values.config.excludeNamespaces | quote }}

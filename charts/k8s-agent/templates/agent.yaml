@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: kubewise-{{ .Release.Name }}-k8s-agent
   labels:
@@ -9,33 +9,45 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubewise.io/group: k8s
+    kubewise.io/app: k8s-agent
 spec:
+  serviceName: rabbitmq-sts
+  replicas: 1
+  updateStrategy:
+    type: "RollingUpdate"
   selector:
     matchLabels:
-      app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-      app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
-      helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-  replicas: 1
+      kubewise.io/group: k8s
+      kubewise.io/app: k8s-agent
   template:
     metadata:
       labels:
-        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
-        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        kubewise.io/group: k8s
+        kubewise.io/app: k8s-agent
     spec:
-      {{- with .Values.deployment.imagePullSecrets }}
-      imagePullSecrets:
+      terminationGracePeriodSeconds: 10
+      {{- with .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.affinity }}
+      affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.deployment.podSecurityContext | nindent 8 }}
-      serviceAccountName: kubewise-{{ .Release.Name }}-k8s-agent
-      automountServiceAccountToken: true
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: agent
-        image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}
+        image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
         securityContext:
           {{- toYaml .Values.deployment.securityContext | nindent 10 }}
@@ -46,15 +58,4 @@ spec:
             name: kubewise-{{ .Release.Name }}-agent-credentials
         resources:
           {{- toYaml .Values.deployment.resources | nindent 10 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.deployment.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.deployment.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+

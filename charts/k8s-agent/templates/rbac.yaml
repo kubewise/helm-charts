@@ -11,6 +11,8 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubewise.io/group: k8s
+    kubewise.io/app: k8s-agent
 rules:
 - apiGroups: [""]
   resources: ["nodes","namespaces","services","pods","pods/log", "events"]
@@ -44,6 +46,8 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubewise.io/group: k8s
+    kubewise.io/app: k8s-agent
 
 ---
 #
@@ -58,6 +62,8 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     app.kubernetes.io/app: kubewise-{{ .Release.Name }}-k8s-agent
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    kubewise.io/group: k8s
+    kubewise.io/app: k8s-agent
 subjects:
 - kind: ServiceAccount
   name: kubewise-{{ .Release.Name }}-k8s-agent

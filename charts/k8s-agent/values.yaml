@@ -69,17 +69,18 @@ deployment:
   # podSecurityContext for the Kubewise's K8s agent's deployment. Note that changing the user and group may result in a broken
   # deployment. Other podSecurityContext options have not been tested, so adding or modifying them may also result in a broken
   # deployment.
-  podSecurityContext:
-    runAsUser: 12345
-    runAsGroup: 12345
+  podSecurityContext: {}
 
   # securityContext configures the security context for the container running the Kubewise's K8s agent's deployment. By default,
   # the agent does not require any privilege nor a read/write filesystem. Other option have not been tested, so modifying them
   # may result in a broken deployment.
   securityContext:
+    runAsUser: 12345
+    runAsGroup: 12345
     privileged: false
     allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
+    runAsNonRoot: true
     capabilities:
       drop:
       - ALL

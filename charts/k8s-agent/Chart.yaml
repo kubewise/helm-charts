@@ -12,8 +12,8 @@ keywords:
 - Performance
 - Insight
 type: application
-version: "v0.3.6"
-appVersion: "v0.3.6"
+version: "v0.3.7"
+appVersion: "v0.3.7"
 home: https://kubewise.io
 sources:
 - https://github.com/kubewise

@@ -2,6 +2,40 @@ apiVersion: v1
 entries:
   k8s-agent:
   - apiVersion: v2
+    appVersion: v0.3.10
+    created: "2024-10-11T05:40:14.555988337Z"
+    dependencies:
+    - alias: trivy
+      condition: deployTrivyOperator
+      name: trivy-operator
+      repository: https://aquasecurity.github.io/helm-charts/
+      version: 0.24.1
+    description: Kubewise's Kubernetes (K8s) agent
+    digest: e0228cfcc39de9b4594e72beae2ebf2d057ed40d345958667c01d4d8a7b8ead1
+    home: https://kubewise.io
+    icon: https://github.com/kubewise/helm-charts/static/kubewise-logo.png
+    keywords:
+    - Kubewise
+    - Kubernetes
+    - Monitoring
+    - Events
+    - Analyzer
+    - Security
+    - Performance
+    - Insight
+    kubeVersion: '>= 1.26.0'
+    maintainers:
+    - name: The Kubewise team
+      url: https://kubewise.io
+    name: k8s-agent
+    sources:
+    - https://github.com/kubewise
+    - https://github.com/kubewise/k8s-agent
+    type: application
+    urls:
+    - https://github.com/kubewise/helm-charts/releases/download/k8s-agent-v0.3.10/k8s-agent-v0.3.10.tgz
+    version: v0.3.10
+  - apiVersion: v2
     appVersion: v0.3.9
     created: "2024-10-07T10:23:54.830607925Z"
     dependencies:
@@ -103,4 +137,4 @@ entries:
     urls:
     - https://github.com/kubewise/helm-charts/releases/download/k8s-agent-v0.3.7/k8s-agent-v0.3.7.tgz
     version: v0.3.7
-generated: "2024-10-07T10:23:54.830625478Z"
+generated: "2024-10-11T05:40:14.556008354Z"

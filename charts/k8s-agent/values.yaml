@@ -42,6 +42,9 @@ config:
   # This option is the global On/Off switch. You can fine tune the behavior per resources using Kubernetes
   # annotations. Please refer to the documentations for more information: https://doc.kubewise.io/k8s-agent/annotations/
   collectLogsOnWatchedPodsCrashes: true
+  # useWebSocket configures the way you want send data to Kubewise. Using WebSocket descreases load and network bandwidth.
+  # If set to false, the Kubewise Kubernetes agent will use HTTPS instead, making one request per event.
+  useWebSocket: true
 
 #
 # This section configures the deployment aspect of the K8s agent.

@@ -12,15 +12,15 @@ keywords:
 - Performance
 - Insight
 type: application
-version: "v0.3.10"
-appVersion: "v0.3.10"
+version: "v0.4.0"
+appVersion: "v0.4.0"
 home: https://kubewise.io
 sources:
 - https://github.com/kubewise
 - https://github.com/kubewise/k8s-agent
 dependencies: # A list of the chart requirements (optional)
 - name: trivy-operator
-  version: "0.24.1"
+  version: "0.25.0"
   repository: https://aquasecurity.github.io/helm-charts/
   alias: trivy
   condition: deployTrivyOperator

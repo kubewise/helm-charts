@@ -1,6 +1,7 @@
 Thank you for installing the Kubewise Kubernetes agent!
 
 To make sure your agent has successfully connected to Kubewise, please login to https://kubewise.io, then select the "Clusters" section and check if you cluster is marked as 'connected'.
+-> Note that if you are not using WebSockets, your agent will still be marked as 'not connected', but the agent version should be correctly updated.
 
 If the page does not show your cluster as being connected, please check the agent logs to get an insight of the error:
 kubectl -n {{ .Release.Namespace }} logs -l app.kubernetes.io/app=kubewise-{{ .Release.Name }}-k8s-agent

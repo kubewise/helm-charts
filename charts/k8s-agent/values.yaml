@@ -29,7 +29,7 @@ config:
   - kube-node-lease
   - kubewise
   # kubernetesResyncFrequency is the frequency at the agent should resync its data with the Kubernetes API server.
-  # In most cases the default value or a higher one is perfectly fine. Setting it too low may introduce some load
+  # In most cases the default value or a higher one is perfectly fine. Setting it too low will introduce some load
   # on your Kubernetes API servers, which is not recommended.
   # The value should be set as a Golang duration format: https://pkg.go.dev/time#ParseDuration
   # Valid units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
@@ -42,6 +42,9 @@ config:
   # This option is the global On/Off switch. You can fine tune the behavior per resources using Kubernetes
   # annotations. Please refer to the documentations for more information: https://doc.kubewise.io/k8s-agent/annotations/
   collectLogsOnWatchedPodsCrashes: true
+  # useWebSocket configures the way you want send data to Kubewise. Using WebSocket descreases load and network bandwidth.
+  # If set to false, the Kubewise Kubernetes agent will use HTTPS instead, making one request per event.
+  useWebSocket: true
 
 #
 # This section configures the deployment aspect of the K8s agent.
@@ -93,6 +96,7 @@ deployment:
 
 # deployTrivyOperator specifies if the Trivy operator should be deployed as well, along side the K8s agent.
 # Trivy operator is a *hard requirement* of the K8s agent, so setting it to 'false' means that you have already
-# deployed it in your cluster. It does NOT need to be deployed on the same namespace as the Kubewise K8s agent.
-# Note that K8s agent expects to be working with the version 0.22.0 of the Trivy operator (Helm chart version 0.24.1).
+# deployed it in your cluster, at the correct version. It does NOT need to be deployed on the same namespace as
+# the Kubewise K8s agent.
+# Note that K8s agent expects to be working with the version 0.23.0 of the Trivy operator (Helm chart version 0.25.0).
 deployTrivyOperator: true

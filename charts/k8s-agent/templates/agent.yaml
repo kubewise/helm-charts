@@ -55,6 +55,11 @@ spec:
         imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
         securityContext:
           {{- toYaml .Values.deployment.securityContext | nindent 10 }}
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         envFrom:
         - configMapRef:
             name: kubewise-{{ .Release.Name }}-agent-config

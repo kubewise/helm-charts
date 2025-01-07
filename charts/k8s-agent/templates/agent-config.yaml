@@ -18,3 +18,4 @@ data:
   KUBERNETES_RESYNC_FREQUENCY: {{ .Values.config.kubernetesResyncFrequency | quote }}
   WATCH_BY_DEFAULT: {{ .Values.config.watchByDefault | quote }}
   COLLECT_LOGS_ON_CRASH: {{ .Values.config.collectLogsOnWatchedPodsCrashes | quote }}
+  USE_WEBSOCKET: {{ .Values.config.useWebSocket | quote }}
